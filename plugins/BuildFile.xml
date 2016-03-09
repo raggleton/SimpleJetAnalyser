@@ -1,0 +1,10 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
+<use name="CommonTools/UtilAlgos"/>
+<use name="root"/>
+<use name="DataFormats/JetReco"/>
+<use name="JetMETCorrections/Objects"/>
+<use name="JetMETCorrections/Algorithms"/>
+<use name="PhysicsTools/Utilities"/>
+<flags EDM_PLUGIN="1"/>
