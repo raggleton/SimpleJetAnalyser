@@ -19,7 +19,7 @@ process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.RawToDigi_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 process.MessageLogger.cerr.threshold = 'INFO'
 process.MessageLogger.categories.append('JetAnal')
@@ -30,7 +30,7 @@ process.MessageLogger.cerr.INFO = cms.untracked.PSet(
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(200)
+    input = cms.untracked.int32(2)
 )
 
 # Input source
@@ -81,6 +81,34 @@ process.jec = cms.ESSource("PoolDBESSource",
 ## add an es_prefer statement to resolve a possible conflict from simultaneous connection to a global tag
 process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
 
+process.ak4PFCHSL1Fastjet = cms.ESProducer(
+    'L1FastjetCorrectionESProducer',
+    level       = cms.string('L1FastJet'),
+    algorithm   = cms.string('AK4PFchs'),
+    srcRho      = cms.InputTag( 'fixedGridRhoFastjetAll' )
+    )
+
+
+process.ak4PFCHSL2Relative = cms.ESProducer(
+    'LXXXCorrectionESProducer',
+    level     = cms.string('L2Relative'),
+    algorithm = cms.string('AK4PFchs')
+    )
+
+process.ak4PFCHSL3Absolute = cms.ESProducer(
+    'LXXXCorrectionESProducer',
+    level     = cms.string('L3Absolute'),
+    algorithm = cms.string('AK4PFchs')
+    )
+
+process.ak4PFCHSL2L3 = cms.ESProducer(
+    'JetCorrectionESChain',
+    correctors = cms.vstring('ak4PFCHSL2Relative','ak4PFCHSL3Absolute')
+    )
+
+
+process.ak4PFCHSL1FastL2L3 = process.ak4PFCHSL2L3.clone()
+process.ak4PFCHSL1FastL2L3.correctors.insert(0,'ak4PFCHSL1Fastjet')
 
 process.jetAnal = cms.EDAnalyzer('JetAnalyser')
 
@@ -88,7 +116,7 @@ process.TFileService = cms.Service(
     "TFileService",
     #fileName = cms.string('L1Ntuple.root')
     #fileName = cms.string('L1Ntuple_summer15V7_200_wrongGT_db.root')
-    fileName = cms.string('L1Ntuple_fall15V2_200_wrongGT_db.root')
+    fileName = cms.string('L1Ntuple_fall15V2_2_wrongGT_db.root')
 )
 
 # Path and EndPath definitions
