@@ -40,7 +40,7 @@ process.jec = cms.ESSource("PoolDBESSource",
             record = cms.string('JetCorrectionsRecord'),
             # tag    = cms.string('JetCorrectorParametersCollection_Summer15_25nsV7_MC_AK4PFchs'),
             tag    = cms.string('JetCorrectorParametersCollection_Fall15_25nsV2_MC_AK4PFchs'),
-            label  = cms.untracked.string('AK4PFCHS')
+            label  = cms.untracked.string('AK4PFchs')   # !!! NOTE IT'S LOWER CASE chs NOT UPPERCASE. FAILURE TO DO THIS WILL RUIN YOUR LIFE. LITERALLY.
             ),
         ),
     # connect = cms.string('sqlite:Summer15_25nsV7_MC.db')
