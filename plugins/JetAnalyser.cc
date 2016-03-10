@@ -129,22 +129,20 @@ JetAnalyser::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
    edm::Handle<reco::PFJetCollection> pfJets;
    iEvent.getByToken(pfJetToken_, pfJets);
-   // reco::PFJetCollection * jets = pfJets.product();
 
    edm::Handle<reco::JetCorrector> pfJetCorr;
    iEvent.getByToken(jecToken_, pfJetCorr);
    
-   LogInfo("JetAnal") << "Njets: " << pfJets->size();
    reco::PFJetCollection::const_iterator itr = pfJets->begin();
    reco::PFJetCollection::const_iterator itrEnd = pfJets->end();
    int c = 0;
    for(; itr != itrEnd; ++itr) {
-       corrFactor_ = pfJetCorr.product()->correction(*itr);
-       std::cout << c << " ET PRE " << itr->et() << " ET POST " << corrFactor_ * itr->et() << " ETA " << itr->eta() << " PHI " << itr->phi() << std::endl;
-       c++;
+       corrFactor_ = pfJetCorr->correction(*itr);
        et_ = itr->et();
        etCorr_ = itr->et() * corrFactor_; 
        tree_->Fill();
+       std::cout << c << " ET PRE " << et_ << " ET POST " << etCorr_ << " ETA " << itr->eta() << " PHI " << itr->phi() << std::endl;
+       c++;
    }
 }
 
