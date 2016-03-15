@@ -23,14 +23,19 @@ process.source = cms.Source("PoolSource",
 )
 
 from Configuration.AlCa.GlobalTag import GlobalTag
+gt = 'auto:run2_mc'
+# gt = '74X_mcRun2_asymptotic_v5' # Summer15_25nsV7 JEC
+# gt = '76X_mcRun2_asymptotic_RunIIFall15DR76_v1'  # Fall15_25nsV2 JEC 
 # process.GlobalTag = GlobalTag(process.GlobalTag, '74X_mcRun2_asymptotic_v5', '')  # Summer15_25nsV7
-process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_RunIIFall15DR76_v1', '')  # Fall15_25nsV2 JEC
+# process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_RunIIFall15DR76_v1', '')  # Fall15_25nsV2 JEC
+process.GlobalTag = GlobalTag(process.GlobalTag, gt, '')
 
 process.jetAnalysis = cms.EDAnalyzer('JetAnalyser')
 
 process.TFileService = cms.Service(
     "TFileService",
-    fileName = cms.string('L1Ntuple_summer15V7_GT.root')
+    fileName = cms.string('L1Ntuple_%s.root' % process.GlobalTag.globaltag.value())
+    # fileName = cms.string('L1Ntuple_summer15V7_GT.root')
     # fileName = cms.string('L1Ntuple_fall15V2_GT.root')
 )
 
